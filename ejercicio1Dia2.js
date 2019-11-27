@@ -31,10 +31,6 @@ const primo=arreglo =>{
         return a-b;
     })
     console.log(resultado);
-////    resultado.reverse();
-//    console.log(resultado);
-//    resultado.sort();
-//    console.log(resultado);
     
 }
 
