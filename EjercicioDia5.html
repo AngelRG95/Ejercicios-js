@@ -1,0 +1,244 @@
+<!doctype HTML>
+<html>
+  <head>
+    <title>Ejercicio Polymer</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/"> 
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>  
+    <link rel="import" href="iron-ajax/iron-ajax.html">  
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+  <body>
+    <h1>Bienvenido</h1>
+    <auto-information></auto-information>
+    <instrumento-musical></instrumento-musical>
+    <book-elements></book-elements>
+    <animal-pet></animal-pet>
+    <person-information></person-information>
+    <dom-module id="auto-information">
+      <template>
+      <style>
+        .blue{
+         background-color: blue;
+         padding-top: 5px;
+         padding-bottom: 5px;
+        }
+        .red{
+         background-color: red;
+         padding-top: 40px;
+         padding-bottom: 40px;
+        }
+      </style>
+      <div class$="[[color]]"><h3>Componente Auto</h3></div>
+      <div>Modelo: [[model]]</div>
+      <div><input type="text" value={{model::input}} /></div>
+      <div>Año: [[year]]</div>
+      <div><input type="number" value={{year::input}} /></div>
+      <div>Detalles </div>
+      <ul>
+      <div><li>Marca: [[details.marca]]</li></div>
+      <div><input type="text" value={{details.marca::input}} /></div>
+      <div><li>Condicion: [[details.estado]]</li></div>
+      <div><input type="text" value={{details.estado::input}} /></div>
+      <div><li>Numero de Plazas: [[details.numeroPlazas]]</li></div>
+      <div><input type="number" value={{details.numeroPlazas::input}} /></div>
+      <div><li>Color: [[details.color]]</li></div>
+      <div><input type="text" value={{details.color::input}} /></div>
+      <div><li>Precio: [[details.precio]]</li></div>
+      <div><input type="number" value={{details.precio::input}} /></div>
+      <div><input type="text" value={{color::input}} /></div>
+      </ul>
+      </template>
+      <script>
+        class AutoInformation extends Polymer.Element{
+          static get is(){ return "auto-information"}
+          static get properties(){
+            return{
+              model:{
+                type: String, value:"wrx"
+              },
+              year:{
+                type: Number, value:2017
+              },
+              details:{
+                type: Object, value:{marca:"Subaru", estado:"Seminuevo", numeroPlazas:5, color:"Azul", precio: 315000}
+              },
+              color: String
+            }
+          }
+        }
+        customElements.define(AutoInformation.is, AutoInformation);
+      </script>
+    </dom-module>
+    <dom-module id="instrumento-musical">
+      <template>
+        <style>
+          .green{
+            background-color:green;
+            padding-top:2px;
+            padding-bottom:2px;
+          }
+          .cyan{
+            background-color:cyan;
+            padding-top:15px;
+            padding-bottom:15px;
+          }
+        </style>
+	<div><h3 class$=[[color]]>Componente Instrumento Musical</h3></div>
+        <div>Instrumento: [[instrumentName]]</div>
+        <div><input type="text" value={{instrumentName::input}} /></div>
+        <div>Instrumento de Percusion: [[percussionInstrument]]</div>
+        <div>Numero de cuerdas: [[strings]]</div>
+        <div><input type="text" value={{strings::input}} /></div>
+        <div>Tipos de Guitarra: [[types]]</div>
+        <div><input type="text" value={{color::input}} /></div>
+      </template>
+      <script>
+        class InstrumentoMusical extends Polymer.Element{
+          static get is(){ return "instrumento-musical"}
+          static get properties(){
+            return{
+              instrumentName:{
+                type: String, value:"Guitarra"
+              },
+              percussionInstrument:{
+                type: Boolean, value:false
+              },
+              strings:{
+                type: Number, value:6
+              },
+              types:{
+                type: Array, value:["Acustica "," Electrica "," Flamenca "," Electroacústica "]
+              },
+              color:String
+            }
+          }
+        }
+        customElements.define(InstrumentoMusical.is, InstrumentoMusical);
+      </script>
+    </dom-module>
+    <dom-module id="book-elements">
+      <template>
+        <style></style>
+          <h3>Componente Libro</h3>
+          <div>Titulo: [[title]]</div>
+          <div><input type="text" value={{title::input}} /></div>
+          <div>Numero de Paginas: [[pagesNumber]]</div>
+          <div><input type="number" value={{pagesNumber}} /></div>
+          <div>Libro Electronico: [[ebook]]</div>
+          <div><h4>Detalles:</h4></div>
+          <ul>
+          <div><li>Autor [[details.autor]]</li></div>
+          <div><input type="text" value={{details.autor::input}} /></div>
+          <div><li>ISBN [[details.ISBN]]</li></div>
+          <div><input type="text" value={{details.ISBN::input}} /></div>
+          <div><li>Año [[details.year]]</li></div>
+          <div><input type="number" value={{details.year}} /></div>
+          <div><li>Editorial [[details.editorial]]</li></div>
+          <div><input type="text" value={{details.editorial}} /></div>
+      </template>
+      <script>
+        class BookElements extends Polymer.Element{
+          static get is(){return "book-elements"}
+          static get properties(){
+            return{
+              title:{
+                type:String, value:"Viaje al Centro de la Tierra"
+              },
+              pagesNumber:{
+                type:Number, value:300
+              },
+              ebook:{
+                type:Boolean, value:true
+              },
+              details:{
+                type:Object, value:{autor:"Julio Verne", ISBN:"IAY387R", year:1876, editorial:"Punto de lectura"}
+              }
+            }
+          }
+        }
+        customElements.define(BookElements.is, BookElements);
+      </script>
+    </dom-module>
+    <dom-module id="animal-pet">
+      <template>
+        <style></style>
+        <div><h3>Componente Mascota</h3><div>
+        <div>Animal: [[animal]]</div>
+        <div><input type="text" value={{animal::input}} /></div>
+        <div>Edad: [[age]]</div>
+        <div><input type="number" value={{age::input}} /></div>
+        <div>Vive: [[isAlive]]</div>
+        <div>Vacunas: [[vaccine]]</div>
+      </template>
+      <script>
+        class AnimalPet extends Polymer.Element{
+          static get is(){return "animal-pet"}
+          static get properties(){
+            return{
+              animal:{
+                type:String ,value:"Perro"
+              },
+              age:{
+                type:Number , value:7
+              },
+              isAlive:{
+                type:Boolean, value:true
+              },
+              vaccine:{
+                type:Array, value:[' Rabia ',' Parvovirus ']
+              }
+            }
+          }
+        }
+        customElements.define(AnimalPet.is, AnimalPet)
+      </script>
+    </dom-module>
+    <dom-module id="person-information">
+      <template>
+      <style>
+      </style>
+      <div><h3>Componente Persona</h3></div>
+      <div>Nombre: [[name]]</div>
+      <div><input type="text" value={{name::input}} /></div>
+      <div>Edad: [[age]]</div>
+      <div><input type="number" value={{age::input}} /></div>
+      <div>Soltero: [[single]]</div>
+      <div>Alergias: [[allergies]]</div>
+      <ul>
+      <div><li>Estatura: [[data.height]] metros</li></div>
+      <div><input type="number" value={{data.height::input}} /></div>
+      <div><li>Peso: [[data.weight]] kilos</li></div>
+      <div><input type="number" value={{data.weight::input}} /></div>
+      <div><li>Apellido: [[data.lastName]]</li></div>
+      <div><input type="text" value={{data.lastName::input}} /></div>
+      </ul>
+      </template>
+      <script>
+        class PersonInformation extends Polymer.Element{
+          static get is(){return "person-information"}
+          static get properties(){
+            return{
+              name:{
+                type:String, value:"Hernan"
+              },
+              age:{
+                type:Number, value:29
+              },
+              single:{
+                type:Boolean, value:true
+              },
+              allergies:{
+                type:Array, value:[" Nueces ", " Gatos "," Abejas "]
+              },
+              data:{
+                type:Object, value:{height:1.84, weight:85, lastName:"Lopez"}
+              }
+            }
+          }
+        }
+        customElements.define(PersonInformation.is,PersonInformation)
+      </script>
+    </dom-module>
+  </body>
+</html>
+ 
