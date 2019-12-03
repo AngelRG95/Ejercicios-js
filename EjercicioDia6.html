@@ -1,0 +1,153 @@
+
+<!doctype HTML>
+<html>
+  <head>
+    <title>Ejercicio Polymer</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">  
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+    <style>
+      body{
+        background-color:green;
+      }
+    </style>
+  </head>
+  <body>
+    <ejercicio-polymer></ejercicio-polymer>
+    <dom-module id="ejercicio-polymer">
+      <template>
+        <style>
+          #contenedor-principal{
+            border-style: solid;
+            border-width: 1px;
+            border-color:  green;
+            margin-left: 20%;
+            margin-right: 25%;
+            margin-bottom: 5%;
+            padding-left: 15%;
+            height: 700px;
+            background-color:white;
+          }
+          #blue{
+            border-style: solid;
+            border-width: 1px;
+            margin-right: 25%;
+            padding-left: 15%;
+            background-color: blue;
+          }
+          #green{
+            border-style: solid;
+            border-width: 1px;
+            border-color: green;
+            margin-right: 25%;
+            padding-left: 15%;
+            background-color: green;
+          }
+          #yellow{
+            border-style: solid;
+            border-width: 1px;
+            border-color: yellow;
+            margin-right: 25%;
+            padding-left: 15%;
+            background-color: yellow;
+          }
+          #gray{
+            border-style: solid;
+            border-width: 1px;
+            border-color: gray;
+            margin-right: 5%;
+            padding-left: 15%;
+            background-color: gray;
+          }
+          #nombre{
+            color:yellow;
+          }
+          #entrada1{
+            margin-top: 5%;
+            padding-right:35%;
+            padding-top: 15px;
+            padding-bottom: 15px;
+          }
+          #entrada2{
+            margin-top: 5%;
+            padding-right: 35%;
+            padding-top: 15px;
+            padding-bottom: 15px;
+          }
+          #button-green{
+            margin-top: 5%;
+            padding-right: 31%;
+            padding-top: 5px;
+            padding-left:33%;
+            padding-bottom: 5px;
+            background-color: green;
+          }
+          #button-yellow{
+            margin-top: 5%;
+            padding-right: 33%;
+            padding-left: 33%;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            background-color:yellow;
+          }
+          #button-gray{
+            margin-top: 5%;
+            padding-right: 35%;
+            padding-left: 33%;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            background-color: gray;
+            
+          }
+        </style>
+        <div id="contenedor-principal">
+          <div> 
+          <h2>click in the buttons to <br> change the colors</h2>
+          </div>
+          <div id$="[[color]]">
+            <span><h3>[[id]]</h3></span>
+            <span id="nombre"><h3>[[name]]</h3></span>
+            <span><h3>[[description]]</h3></span>
+          </div>
+          <div><input id="entrada1" type="text" value="{{name::input}}" /></div>
+          <div><input id="entrada2" type="text" value="{{description::input}}" /></div>
+          <div><button id="button-green" on-click="cambiaVerde"><h3 id="nombre">Green</h3></button></div>
+          <div><button id="button-yellow" on-click="cambiaAmarillo"><h3>Yellow</h3></button></div>
+          <div><button id="button-gray" on-click="cambiaGris"><h3 id="nombre">Gray</h3></button></div>
+        </div>
+      </template>
+      <script>
+        class EjercicioPolymer extends Polymer.Element{
+          static get is(){ return "ejercicio-polymer" }
+          static get properties(){
+            return {
+              id:{
+                type:Number, value:1324841
+              },
+              name:{
+                type:String, value:'Angel'
+              },
+              description:{
+                type:String, value:'trainee developer'
+              },
+              color:{
+                type:String, value:'blue'
+              }
+            }
+          }
+          cambiaVerde(event){
+            this.color='green';
+          }
+          cambiaAmarillo(event){
+            this.color='yellow';
+          }
+          cambiaGris(event){
+            this.color='gray';
+          }
+        }
+        customElements.define(EjercicioPolymer.is, EjercicioPolymer);
+      </script>
+    </dom-module>
+  </body>
+</html>
