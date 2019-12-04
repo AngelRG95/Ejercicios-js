@@ -1,0 +1,194 @@
+<!doctype HTML>
+<html>
+<head>
+  <title>Ejercicio Dia 7</title>
+  <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+  <script src="webcomponentsjs/webcomponents-loader.js"></script>
+  <link rel="import" href="iron-ajax/iron-ajax.html">
+  <link rel="import" href="polymer/polymer-element.html">
+</head>
+<body>
+  <componente-principal></componente-principal>
+  <dom-module id="componente-principal">
+    <template>
+      <style>
+        :host{
+          display: block;
+          border: solid;
+          border-color: green;
+          margin-top: 15px; 
+          margin-left: 15px;
+          margin-right: 15px;
+          background-color: pink;
+          padding-left: 20px;
+        }
+        hr{
+          margin-right: 15px;
+          margin-top: 10px;
+        }
+        #primera-linea{
+          margin-top: 10px;
+        }
+      </style>
+      <span><h1>Nested components</h1><span>
+      <div>
+        <span>Selected Item: [[index]]</span><br>
+        <span>Selected Value: [[value]]</span><br>
+        <span>New Value: [[newValue]]</span><br>
+      </div> 
+      <hr id="primera-linea">
+      <agregar-pelicula array-padre={{array}} nueva-pelicula={{newValue}}></agregar-pelicula>
+      <hr>
+      <hr id="primera-linea">
+      <editar-pelicula array-padre={{value}} ></editar-pelicula>
+      <hr>
+      <hr id="primera-linea">
+      <peliculas-disponibles array-padre=[[array]] item={{index}} pelicula={{value}}></peliculas-disponibles>
+      <hr>
+    </template>
+    <script>
+      class ComponentePrincipal extends Polymer.Element{
+        static get is(){return "componente-principal"}
+        static get properties(){
+          return{
+            array:{
+              type:Array , value:['Avengers (2hrs 40min)','Batman vs Superman (2hrs)']
+            },
+            index: Number,
+            value: String,
+            newValue: String
+          }
+        }
+      }
+      customElements.define(ComponentePrincipal.is, ComponentePrincipal);
+    </script>
+  </dom-module>
+  <dom-module id="agregar-pelicula">
+    <template>
+      <style>
+        :host{
+          display: block;
+          border: solid;
+          border-color: yellow;
+          margin-left: 5px;
+          margin-top: 20px;
+          margin-right: 15px;
+          margin-bottom: 20px;
+          padding-left: 15px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+      </style>
+       <div><input type="text" placeholder="Type new item" value="{{pelicula::input}}" /> &nbsp&nbsp<button on-click="agregarElemento">Add</button></div>
+    </template>
+    <script>
+      class AgregarPelicula extends Polymer.Element{
+        static get is(){return "agregar-pelicula"}
+        static get properties(){
+          return{
+            arrayPadre:{
+              type: String, notify:true
+            },
+            nuevaPelicula:{
+              type: String, notify:true
+            },
+            pelicula:String
+          }
+        }
+        agregarElemento(event){
+          this.push('arrayPadre',this.pelicula);
+          this.nuevaPelicula=this.pelicula;
+          console.log(this.arrayPadre);
+        }
+      }
+      customElements.define(AgregarPelicula.is, AgregarPelicula);
+    </script>
+  </dom-module>
+  <dom-module id="editar-pelicula">
+    <template>
+      <style>
+        :host{
+          display:block;
+          border:solid;
+          border-color:blue;
+          margin-left: 5px;
+          margin-top: 20px;
+          margin-right: 15px;
+          marin-bottom: 20px;
+          padding-left: 15px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+      </style>
+      <div><input type="text" placeholder="Select item to edit" value="{{arrayPadre::input}}" /></div>
+    </template>
+    <script>
+      class EditarPelicula extends Polymer.Element{
+        static get is(){return "editar-pelicula"}
+        static get properties(){
+          return{
+            index:{
+              type:Number, notify:true
+            },
+            arrayPadre:{
+              type:String, notify:true
+            }
+          }
+        }
+      }
+      customElements.define(EditarPelicula.is, EditarPelicula);
+    </script>
+  </dom-module>
+  <dom-module id="peliculas-disponibles">
+    <template>
+      <style>
+        :host{
+          display: block;
+          border: solid;
+          border-color: red;
+          margin-left: 5px;
+          margin-top: 20px;
+          margin-right: 15px;
+          margin-bottom: 20px;
+          padding-left: 15px;
+        }
+      </style>
+      <template is="dom-repeat" items="[[arrayPadre]]">
+        <button on-click="eliminarElementos">Remove</button><button on-click="editarElementos">[[item]]</button><br>
+      </template>
+    </template>
+    <script>
+      class PeliculasDisponibles extends Polymer.Element{
+        static get is(){return "peliculas-disponibles"}
+        static get properties(){
+          return{
+            arrayPadre:{
+              type:String, notify:true 
+            },
+            item:{
+              type:Number, notify:true
+            },
+            pelicula:{
+              type:String, notify:true
+            }
+          }
+        }
+        eliminarElementos(event){
+          const index=(event.model.index);
+          this.splice('arrayPadre',index,1);
+          console.log(index);
+          console.log(this.arrayPadre);
+        }
+        editarElementos(event){
+          const item=event.model.index;
+          const movie=event.model.item;
+          this.item=item;
+          this.pelicula=movie;
+          console.log(event);
+        }
+      }
+      customElements.define(PeliculasDisponibles.is, PeliculasDisponibles);
+    </script>
+  </dom-module>
+</body>
+</html>
