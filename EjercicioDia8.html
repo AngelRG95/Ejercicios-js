@@ -1,0 +1,316 @@
+
+
+
+<!doctype HTML>
+<html>
+  <head>
+    <title>Ejercicio Dia8</title>
+    <base href="https://cdn.rawgit.com/download/polymer-cdn/2.6.0/lib/">
+    <script src="webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="import" href="iron-ajax/iron-ajax.html">
+    <link rel="import" href="polymer/polymer-element.html">
+  </head>
+  <body>
+    <componente-padre></componente-padre>
+    <dom-module id="componente-padre">
+      <template>
+        <style>
+          :host{
+            display:block;
+            border:solid;
+            border-color:orange;
+            border-width:1px;
+            margin:10px;
+            padding-left: 25px;
+            padding-bottom: 25px;
+          }
+          span{
+            padding-left: 15px;
+          }
+          hr{
+            width: 45px;
+            display: inline-block;
+          }
+          #primeraLinea{
+            width: 130px;
+            margin-left: 10px;
+          }
+        </style>
+        <h1>Polymer Store</h1>
+        <h2>Cart</h2>
+        <span>Product</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span>Price</span><span>Units</span><span>Total</span><br>
+        <template is="dom-if" if="[[pineappleCompradas]]">
+          <span>[[arrayFrutas.0.product]]</span>&nbsp<span>[[arrayFrutas.0.price]]</span>&nbsp&nbsp&nbsp&nbsp&nbsp<span>[[numeroPineapples]]</span><span>[[totalPineapple]]</span>
+          <br>
+        </template>
+        <template is="dom-if" if="[[naranjasCompradas]]">
+          <span>[[arrayFrutas.1.product]]</span>&nbsp&nbsp&nbsp&nbsp&nbsp<span>[[arrayFrutas.1.price]]</span>&nbsp&nbsp&nbsp&nbsp&nbsp<span>[[numeroNaranja]]</span>
+          <br>
+        </template>
+        <template is="dom-if" if="[[frambuesasCompradas]]">
+          <span>[[arrayFrutas.2.product]]</span><span>[[arrayFrutas.2.price]]</span>&nbsp&nbsp&nbsp&nbsp&nbsp<span>[[numeroFrambuesas]]</span>
+          <br>
+        </template>
+        <hr id="primeraLinea">
+        <hr>
+        <hr>
+        <h2>Products</h2>
+        <componente-pineapple product=[[arrayFrutas.0.product]] price=[[arrayFrutas.0.price]] units={{arrayFrutas.0.units}} estado={{pineappleCompradas}} cantidad={{numeroPineapples}}></componente-pineapple>
+        <componente-naranja product=[[arrayFrutas.1.product]] price=[[arrayFrutas.1.price]] units={{arrayFrutas.1.units}} estado={{naranjasCompradas}} cantidad={{numeroNaranja}}></componente-naranja>
+        <componente-frambuesa product=[[arrayFrutas.2.product]] price=[[arrayFrutas.2.price]] units={{arrayFrutas.2.units}} estado={{frambuesasCompradas}} cantidad={{numeroFrambuesas}}></componente-frambuesa>
+      </template>
+      <script>
+        class ComponentePadre extends Polymer.Element{
+          static get is(){return "componente-padre"}
+          static get properties(){
+              return{
+                arrayFrutas:{type:Array, value:[
+                                                {product:'Pineapples', price:10.5, units:10},
+                                                {product:'Oranges', price:20.5, units:19},
+                                                {product:'Raspberries', price:21.5, units:30}
+                                               ]
+                },
+                numeroPineapples:{type:Number, value:0},
+                pineappleCompradas:{
+                         type:Boolean, value:false
+                },
+                numeroNaranja:{type:Number, value:0},
+                naranjasCompradas:{
+                         type:Boolean, value:false
+                },
+                numeroFrambuesas:{type:Number, value:0},
+                frambuesasCompradas:{ 
+                         type:Boolean, value:false
+                },
+                totalPineapple:{type:Number, observer:'addPineapple'}
+              }
+          }
+
+          totalPineapples(a){
+            let precio=this.arrayFrutas;
+            let producto=this.numeroPineapples;
+            console.log(producto);
+          }
+        }
+        customElements.define(ComponentePadre.is, ComponentePadre);
+      </script>
+    </dom-module>
+    <dom-module id="componente-pineapple">
+      <template>
+        <style>
+          :host{
+            display: inline-block;
+            border:solid;
+            border-width:1px;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-bottom: 15px;
+            margin-right: 15px;
+          }
+          button{
+            margin-right:5px;
+          }
+        </style>
+        <h2>[[product]]</h2>
+        <img src="https://imagenes.milenio.com/A-NCxHVBIuZ_Z4AQYRlXWCS2das=/958x596/https://www.milenio.com/uploads/media/2019/03/09/forma-siquiera-tendras-preocuparte-morder_0_79_616_383.jpg" width="150" height="130" />
+        <br>
+        <span>Price: [[price]]</span><br>
+        <span>Units: {{units}}</span><br>
+        <button on-click="addPineapple">+</button><button on-click="removePineapple">-</button>
+      </template>
+      <script>
+        class ComponentePineapple extends Polymer.Element{
+          static get is(){return "componente-pineapple"}
+          static get properties(){
+              return{
+                product:{
+                          type:String, notify:true
+                        },
+                price:{
+                        type:String, notify:true
+                      },
+                units:{
+                        type:Number, notify:true
+                      },
+                cantidad:{
+                        type:Number, notify:true
+                      },
+                estado:{
+                        type:Boolean, notify:true
+                      }
+              }
+          }
+
+          addPineapple(event){
+            if(this.units>0){
+              this.units-=1;
+              this.cantidad+=1;
+            }
+            if(this.cantidad==0){
+              this.estado=false;
+            }else{
+              this.estado=true;
+            }
+            let resultado=this.price*this.cantidad;
+            this.set('componente-padre',resultado);
+          }
+          removePineapple(event){
+            if(this.units<10){
+              this.units+=1;
+              this.cantidad-=1;
+            }
+            if(this.cantidad==0){
+              this.estado=false;
+            }else{
+              this.estado=true;
+            }
+          }
+        }
+        customElements.define(ComponentePineapple.is, ComponentePineapple);
+      </script>
+    </dom-module>
+    <dom-module id="componente-naranja">
+      <template>
+        <style>
+          :host{
+             display: inline-block;
+             border: solid;
+             border-width: 1px;
+             padding-left: 15px;
+             padding-right: 15px;
+             padding-bottom: 15px;
+             margin-right: 15px;
+          }
+          button{
+             margin-right:5px;
+          }
+        </style>
+        <h2>[[product]]</h2>
+        <img src="https://www.allianz-assistance.es/v_1533038037198/media/blog/2018/20180731-origen-de-dichos-geograficos-naranjas-de-la-china/origen-de-dichos-geograficos-naranjas-de-la-china-content.jpg" width="150" height="130" />
+        <br>
+        <span>Price: [[price]]</span><br>
+        <span>Units: {{units}}</span><br>
+        <button on-click="addOrange">+</button><button on-click="removeOrange">-</button>
+      </template>
+      <script>
+        class ComponenteNaranja extends Polymer.Element{
+          static get is(){return "componente-naranja"}
+          static get properties(){
+              return{
+                product:{
+                          type:String, notify:true
+                        },
+                price:{
+                        type:Number, notify:true
+                      },
+                units:{
+                        type:Number, notify:true
+                      },
+                estado:{
+                        type:Boolean, notify:true
+                      },
+                cantidad:{
+                           type:Number, notify:true
+                         }
+              }
+          }
+          addOrange(event){
+            if(this.units>0){
+              this.units-=1;
+              this.cantidad+=1;
+            }
+            if(this.cantidad==0){
+              this.estado=false;
+            }else{
+              this.estado=true;
+            }
+          }
+          removeOrange(event){
+            if(this.units<19){
+              this.units+=1;
+              this.cantidad-=1;
+            }
+            if(this.cantidad==0){
+              this.estado=false;
+            }else{
+              this.estado=true;
+            }
+          }
+        }
+        customElements.define(ComponenteNaranja.is, ComponenteNaranja);
+      </script>
+    </dom-module>
+    <dom-module id="componente-frambuesa">
+      <template>
+        <style>
+          :host{
+            display:inline-block;
+            border:solid;
+            border-width:1px;
+            padding-left:15px;
+            padding-right:15px;
+            padding-bottom: 15px;
+            margin-reiht:15px;
+          }
+          button{
+            margin-right: 5px;
+          }
+        </style>
+        <h2>[[product]]</h2>
+        <img src="data:image/jpeg;base64,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" width="150" height="130" >
+        <br>
+        <span>Price:[[price]]</span><br>
+        <span>Units:{{units}}</span><br>
+        <button on-click="addRaspberry">+</button><button on-click="removeRaspberry">-</button>
+      </template>
+      <script>
+        class ComponenteFrambuesa extends Polymer.Element{
+          static get is(){return "componente-frambuesa"}
+          static get properties(){
+              return{
+                      product:{
+                                type:String, notify:true
+                              },
+                      price:{
+                              type:Number, notify:true
+                            },
+                      units:{
+                              type:Number, notify:true
+                            },
+                      estado:{
+                              type:Boolean, notify:true
+                      },
+                      cantidad:{
+                               type:Number, notify:true
+                      }
+                      
+              }
+          }
+          addRaspberry(event){
+            if(this.units>0){
+              this.units-=1;
+              this.cantidad+=1;
+            }
+            if(this.cantidad==0){
+              this.estado=false;
+            }else{
+              this.estado=true;
+            }
+          }
+          removeRaspberry(event){
+            if(this.units<30){
+              this.units+=1;
+              this.cantidad-=1;
+            }
+            if(this.cantidad==0){
+              this.estado=false;
+            }else{
+              this.estado=true;
+            }
+          }
+        }
+        customElements.define(ComponenteFrambuesa.is, ComponenteFrambuesa);
+      </script>
+    </dom-module>
+  </body>
+</html>
